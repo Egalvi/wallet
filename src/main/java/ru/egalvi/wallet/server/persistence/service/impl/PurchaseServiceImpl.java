@@ -1,10 +1,10 @@
-package ru.egalvi.wallet.persistence.service.impl;
+package ru.egalvi.wallet.server.persistence.service.impl;
 
 import org.springframework.stereotype.Service;
-import ru.egalvi.wallet.persistence.domain.Purchase;
-import ru.egalvi.wallet.persistence.repository.PurchaseRepository;
-import ru.egalvi.wallet.persistence.service.EntityNotFoundException;
-import ru.egalvi.wallet.persistence.service.PurchaseService;
+import ru.egalvi.wallet.server.persistence.domain.Purchase;
+import ru.egalvi.wallet.server.persistence.repository.PurchaseRepository;
+import ru.egalvi.wallet.server.persistence.service.EntityNotFoundException;
+import ru.egalvi.wallet.server.persistence.service.PurchaseService;
 
 import javax.annotation.Resource;
 

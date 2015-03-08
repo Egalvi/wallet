@@ -1,4 +1,4 @@
-package ru.egalvi.wallet;
+package ru.egalvi.wallet.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

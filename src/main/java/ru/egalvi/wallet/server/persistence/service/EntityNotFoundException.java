@@ -1,4 +1,4 @@
-package ru.egalvi.wallet.persistence.service;
+package ru.egalvi.wallet.server.persistence.service;
 
 public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException() {

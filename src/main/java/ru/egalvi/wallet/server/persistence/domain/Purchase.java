@@ -1,9 +1,8 @@
-package ru.egalvi.wallet.persistence.domain;
+package ru.egalvi.wallet.server.persistence.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.DoubleSummaryStatistics;
 
 @Entity(name = "purchase")
 public class Purchase implements Serializable {
