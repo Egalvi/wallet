@@ -1,6 +1,6 @@
 package ru.egalvi.wallet.server.persistence.service;
 
-import ru.egalvi.wallet.server.persistence.domain.Purchase;
+import ru.egalvi.wallet.shared.domain.Purchase;
 
 public interface PurchaseService {
     Purchase create(Purchase created);

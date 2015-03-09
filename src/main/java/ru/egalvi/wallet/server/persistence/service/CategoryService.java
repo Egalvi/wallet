@@ -1,6 +1,6 @@
 package ru.egalvi.wallet.server.persistence.service;
 
-import ru.egalvi.wallet.server.persistence.domain.Category;
+import ru.egalvi.wallet.shared.domain.Category;
 
 public interface CategoryService {
     Category create(Category created);

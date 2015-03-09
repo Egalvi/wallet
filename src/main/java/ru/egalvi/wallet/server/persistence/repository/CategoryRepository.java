@@ -1,7 +1,7 @@
 package ru.egalvi.wallet.server.persistence.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import ru.egalvi.wallet.server.persistence.domain.Category;
+import ru.egalvi.wallet.shared.domain.Category;
 
 import java.util.Collection;
 
