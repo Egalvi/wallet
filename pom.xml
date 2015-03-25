@@ -10,12 +10,22 @@
     <version>1.0-SNAPSHOT</version>
     <name>ru.egalvi.wallet.Wallet</name>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.2.2.RELEASE</version>
+    </parent>
+
     <properties>
         <!-- Convenience property to set the GWT version -->
         <gwtVersion>2.7.0</gwtVersion>
         <!-- Note: GWT needs at least java 1.6 -->
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
+
+        <start-class>ru.egalvi.wallet.server.Application</start-class>
+
+        <outputFolder>${project.build.directory}/${artifactId}</outputFolder>
     </properties>
 
     <dependencyManagement>
@@ -34,13 +44,19 @@
         <!--Spring-Boot-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>1.2.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>1.2.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -51,6 +67,11 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>4.3.8.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.3.1.Final</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -103,8 +124,14 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
+        <outputDirectory>${outputFolder}/WEB-INF/classes</outputDirectory>
 
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
 
             <!-- GWT Maven Plugin-->
             <plugin>
@@ -134,6 +161,8 @@
                     </modules>
                     <!-- URL that should be opened by DevMode (gwt:run). -->
                     <runTarget>Wallet.html</runTarget>
+                    <hostedWebapp>${outputFolder}</hostedWebapp>
+                    <webappDirectory>${outputFolder}</webappDirectory>
                     <!-- Ask GWT to create the Story of Your Compile (SOYC) (gwt:compile) -->
                     <compileReport>true</compileReport>
                     <!-- Run tests using HtmlUnit -->

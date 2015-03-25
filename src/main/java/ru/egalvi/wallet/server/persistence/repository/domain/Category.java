@@ -1,4 +1,4 @@
-package ru.egalvi.wallet.shared.domain;
+package ru.egalvi.wallet.server.persistence.repository.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
