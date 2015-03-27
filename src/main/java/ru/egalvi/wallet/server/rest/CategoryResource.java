@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("category")
+@RequestMapping("wallet/category")
 public class CategoryResource {
     @Resource
     private CategoryService categoryService;

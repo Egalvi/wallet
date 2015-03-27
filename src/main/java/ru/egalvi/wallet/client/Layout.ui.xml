@@ -1,0 +1,17 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:c='urn:import:ru.egalvi.wallet.client.crud'>
+    <g:HTMLPanel>
+        <g:Label>Wallet - financial management system</g:Label>
+
+        <section>
+            <c:CrudWidget />
+
+        </section>
+    </g:HTMLPanel>
+
+    <!--<g:HTMLPanel>-->
+
+    <!--</g:HTMLPanel>-->
+
+</ui:UiBinder>
