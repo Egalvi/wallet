@@ -6,45 +6,25 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
     <!-- Servlets -->
-    <!--<servlet>-->
-    <!--<servlet-name>greetServlet</servlet-name>-->
-    <!--<servlet-class>ru.egalvi.wallet.server.GreetingServiceImpl</servlet-class>-->
-    <!--</servlet>-->
-    <!---->
-    <!--<servlet-mapping>-->
-    <!--<servlet-name>greetServlet</servlet-name>-->
-    <!--<url-pattern>/wallet/greet</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet>
+        <servlet-name>gwt-boot</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <init-param>
+            <param-name>contextClass</param-name>
+            <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+        </init-param>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>ru.egalvi.wallet.server.Application</param-value>
+        </init-param>
+    </servlet>
 
-    <!--<servlet>-->
-        <!--<servlet-name>categoryServlet</servlet-name>-->
-        <!--<servlet-class>ru.egalvi.wallet.server.gwt.CategoryUiServiceImpl</servlet-class>-->
-    <!--</servlet>-->
-
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>categoryServlet</servlet-name>-->
-        <!--<url-pattern>/wallet/category</url-pattern>-->
-    <!--</servlet-mapping>-->
-
-    <!--<servlet>-->
-        <!--<servlet-name>gwt-boot</servlet-name>-->
-        <!--<servlet-class>-->
-            <!--org.springframework.web.servlet.DispatcherServlet-->
-        <!--</servlet-class>-->
-        <!--<init-param>-->
-            <!--<param-name>contextClass</param-name>-->
-            <!--<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>contextConfigLocation</param-name>-->
-            <!--<param-value>ru.egalvi.wallet.server.Application</param-value>-->
-        <!--</init-param>-->
-    <!--</servlet>-->
-
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>gwt-boot</servlet-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>gwt-boot</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 
 
     <!-- Default page to serve -->
