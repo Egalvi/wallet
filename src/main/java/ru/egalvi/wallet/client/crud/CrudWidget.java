@@ -6,11 +6,13 @@ import com.google.gwt.http.client.*;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.cellview.client.CellBrowser;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import ru.egalvi.wallet.shared.domain.Category;
 
 
 public class CrudWidget extends Composite {
@@ -25,8 +27,12 @@ public class CrudWidget extends Composite {
     Button addButton;
     @UiField
     TextBox name;
+    @UiField(provided = true)
+    CellBrowser cellBrowser;
 
     public CrudWidget() {
+        cellBrowser = new CellBrowser.Builder<Category>(new PurchasesViewModel(), null).build();
+        cellBrowser.setAnimationEnabled(true);
         initWidget(uiBinder.createAndBindUi(this));
     }
 
@@ -34,7 +40,7 @@ public class CrudWidget extends Composite {
     public void addButtonHandler(ClickEvent clickEvent) {
 //        Window.alert("Add btn clicked");
         RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, JSON_URL);
-        builder.setHeader("Content-Type","application/json");
+        builder.setHeader("Content-Type", "application/json");
         try {
             Request request = builder.sendRequest("{\"name\":\"" + name.getValue() + "\"}", new RequestCallback() {
                 public void onError(Request request, Throwable exception) {
