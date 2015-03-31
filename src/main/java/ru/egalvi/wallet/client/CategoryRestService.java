@@ -7,6 +7,7 @@ import ru.egalvi.wallet.shared.domain.Category;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import java.util.Collection;
 
 public interface CategoryRestService extends RestService {
     @POST
@@ -15,5 +16,5 @@ public interface CategoryRestService extends RestService {
 
     @GET
     @Path("category")
-    public void getAllCategories(MethodCallback<Iterable<Category>> callback);
+    public void getAllCategories(MethodCallback<Collection<Category>> callback);
 }

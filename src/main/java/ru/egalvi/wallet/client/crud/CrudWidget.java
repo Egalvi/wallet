@@ -60,10 +60,11 @@ public class CrudWidget extends Composite {
         CategoryRestService categoryRestService = GWT.create(CategoryRestService.class);
         ((RestServiceProxy)categoryRestService).setResource(resource);
 
+        Category newCategory = new Category();
+        newCategory.setName(name.getValue());
 
-        if (selectedCategory == null) {
-            Category newCategory = new Category();
-            newCategory.setName(name.getValue());
+        //TODO refresh view on every update
+        if (selectedCategory.getId() == null) {
             selectedCategory.getSubCategories().add(newCategory);
             categoryRestService.create(newCategory, new MethodCallback<Void>() {
                 @Override
@@ -73,14 +74,12 @@ public class CrudWidget extends Composite {
 
                 @Override
                 public void onSuccess(Method method, Void aVoid) {
-                    Window.alert("yahoo");
+//                    Window.alert("yahoo");
                 }
             });
         } else {
-            Category newCategory = new Category();
-            newCategory.setName(name.getValue());
             selectedCategory.getSubCategories().add(newCategory);
-            categoryRestService.create(newCategory, new MethodCallback<Void>() {
+            categoryRestService.create(selectedCategory, new MethodCallback<Void>() {
                 @Override
                 public void onFailure(Method method, Throwable throwable) {
                     Window.alert("dough "+ throwable.getMessage());
@@ -88,7 +87,7 @@ public class CrudWidget extends Composite {
 
                 @Override
                 public void onSuccess(Method method, Void aVoid) {
-                    Window.alert("yahoo");
+//                    Window.alert("yahoo");
                 }
             });
         }

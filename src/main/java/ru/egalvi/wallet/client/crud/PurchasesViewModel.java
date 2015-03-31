@@ -2,12 +2,20 @@ package ru.egalvi.wallet.client.crud;
 
 import com.google.common.collect.Lists;
 import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.view.client.*;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+import org.fusesource.restygwt.client.Resource;
+import org.fusesource.restygwt.client.RestServiceProxy;
+import ru.egalvi.wallet.client.CategoryRestService;
 import ru.egalvi.wallet.shared.domain.Category;
 import ru.egalvi.wallet.shared.domain.Purchase;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class PurchasesViewModel implements TreeViewModel {
@@ -22,37 +30,30 @@ public class PurchasesViewModel implements TreeViewModel {
      * Get the {@link NodeInfo} that provides the children of the specified
      * value.
      */
+    //TODO here I'm reading all categories every time, not good
     public <T> NodeInfo<?> getNodeInfo(T value) {
-        ListDataProvider<Category> dataProvider = new ListDataProvider<>();
-        for (int i = 0; i < 2; i++) {
-            Category category = new Category();
-            category.setName("cat" + i);
-            category.setPurchases(new ArrayList<Purchase>());
-            category.setSubCategories(new ArrayList<Category>());
-            for (int j = 0; j < 2; j++) {
-                Category subCategory = new Category();
-                subCategory.setName("subCat " + i + j);
-                subCategory.setSubCategories(new ArrayList<Category>());
-                category.getSubCategories().add(subCategory);
-                for (int k = 0; k < 2; k++) {
-                    Category subSubCategory = new Category();
-                    subSubCategory.setName("subSubCat " + i + j + k);
-                    subCategory.getSubCategories().add(subSubCategory);
-                }
+        final Category rootCategory = new Category();
+        rootCategory.setName("/");
+
+        Resource resource = new Resource(GWT.getModuleBaseURL());
+        CategoryRestService categoryRestService = GWT.create(CategoryRestService.class);
+        ((RestServiceProxy)categoryRestService).setResource(resource);
+
+        categoryRestService.getAllCategories(new MethodCallback<Collection<Category>>() {
+            @Override
+            public void onFailure(Method method, Throwable throwable) {
+                Window.alert("dough " + throwable.getMessage());
             }
-            for (int j = 0; j < 2; j++) {
-                Purchase purchase = new Purchase();
-                purchase.setName("purchase " + i + j);
-                category.getPurchases().add(purchase);
+
+            @Override
+            public void onSuccess(Method method, Collection<Category> categories) {
+                rootCategory.setSubCategories(new ArrayList<Category>(categories));
             }
-            dataProvider.getList().add(category);
-        }
+        });
 
         if (value == null) {
             // Return a node info that pairs the data with a cell.
-            Category rootCategory = new Category();
-            rootCategory.setName("/");
-            rootCategory.setSubCategories(dataProvider.getList());
+//            rootCategory.setSubCategories(dataProvider.getList());
             ListDataProvider<Category> rootDataProvider = new ListDataProvider<>(/*Lists.newArrayList(rootCategory)*/);
             rootDataProvider.getList().add(rootCategory);
             return new DefaultNodeInfo<Category>(rootDataProvider,new CategoryCell(), selectionModel,
