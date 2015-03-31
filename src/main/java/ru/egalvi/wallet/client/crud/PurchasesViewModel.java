@@ -1,5 +1,6 @@
 package ru.egalvi.wallet.client.crud;
 
+import com.google.common.collect.Lists;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.view.client.*;
@@ -13,7 +14,7 @@ public class PurchasesViewModel implements TreeViewModel {
 
     SingleSelectionModel<Object> selectionModel;
 
-    public PurchasesViewModel(SingleSelectionModel<Object> selectionModel){
+    public PurchasesViewModel(SingleSelectionModel<Object> selectionModel) {
         this.selectionModel = selectionModel;
     }
 
@@ -22,10 +23,6 @@ public class PurchasesViewModel implements TreeViewModel {
      * value.
      */
     public <T> NodeInfo<?> getNodeInfo(T value) {
-      /*
-       * Create some data in a data provider. Use the parent value as a prefix
-       * for the next level.
-       */
         ListDataProvider<Category> dataProvider = new ListDataProvider<>();
         for (int i = 0; i < 2; i++) {
             Category category = new Category();
@@ -53,8 +50,12 @@ public class PurchasesViewModel implements TreeViewModel {
 
         if (value == null) {
             // Return a node info that pairs the data with a cell.
-
-            return new DefaultNodeInfo<Category>(dataProvider, new CategoryCell(), selectionModel,
+            Category rootCategory = new Category();
+            rootCategory.setName("/");
+            rootCategory.setSubCategories(dataProvider.getList());
+            ListDataProvider<Category> rootDataProvider = new ListDataProvider<>(/*Lists.newArrayList(rootCategory)*/);
+            rootDataProvider.getList().add(rootCategory);
+            return new DefaultNodeInfo<Category>(rootDataProvider,new CategoryCell(), selectionModel,
                     DefaultSelectionEventManager.<Category>createDefaultManager(), null);
         } else /*if (value instanceof Category)*/ {
             return new DefaultNodeInfo<Category>(

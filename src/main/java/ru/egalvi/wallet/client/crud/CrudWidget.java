@@ -20,7 +20,6 @@ import org.fusesource.restygwt.client.RestServiceProxy;
 import ru.egalvi.wallet.client.CategoryRestService;
 import ru.egalvi.wallet.shared.domain.Category;
 
-
 public class CrudWidget extends Composite {
     interface MyUiBinder extends UiBinder<Widget, CrudWidget> {
     }
