@@ -2,6 +2,7 @@ package ru.egalvi.wallet.shared.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class Category implements Serializable {
@@ -12,7 +13,7 @@ public class Category implements Serializable {
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Collection<Category> subCategories;
+    private Collection<Category> subCategories = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<Purchase> purchases;
 

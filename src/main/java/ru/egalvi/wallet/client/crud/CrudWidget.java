@@ -2,16 +2,22 @@ package ru.egalvi.wallet.client.crud;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.http.client.*;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.cellview.client.CellBrowser;
+import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+import org.fusesource.restygwt.client.Resource;
+import org.fusesource.restygwt.client.RestServiceProxy;
+import ru.egalvi.wallet.client.CategoryRestService;
 import ru.egalvi.wallet.shared.domain.Category;
 
 
@@ -28,37 +34,64 @@ public class CrudWidget extends Composite {
     @UiField
     TextBox name;
     @UiField(provided = true)
-    CellBrowser cellBrowser;
+    CellTree cellBrowser;
+
+    private final PurchasesViewModel viewModel;
+
+    private Category selectedCategory = null;
 
     public CrudWidget() {
-        cellBrowser = new CellBrowser.Builder<Category>(new PurchasesViewModel(), null).build();
+        SingleSelectionModel<Object> selectionModel = new SingleSelectionModel<>();
+        selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+            @Override
+            public void onSelectionChange(SelectionChangeEvent selectionChangeEvent) {
+                Object source = ((SingleSelectionModel) selectionChangeEvent.getSource()).getSelectedObject();
+                selectedCategory = (Category) source;
+            }
+        });
+        viewModel = new PurchasesViewModel(selectionModel);
+        cellBrowser = new CellTree(viewModel, null);
         cellBrowser.setAnimationEnabled(true);
         initWidget(uiBinder.createAndBindUi(this));
     }
 
     @UiHandler("addButton")
     public void addButtonHandler(ClickEvent clickEvent) {
-//        Window.alert("Add btn clicked");
-        RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, JSON_URL);
-        builder.setHeader("Content-Type", "application/json");
-        try {
-            Request request = builder.sendRequest("{\"name\":\"" + name.getValue() + "\"}", new RequestCallback() {
-                public void onError(Request request, Throwable exception) {
-                    Window.alert("Couldn't retrieve JSON");
+        Resource resource = new Resource(GWT.getModuleBaseURL());
+        CategoryRestService categoryRestService = GWT.create(CategoryRestService.class);
+        ((RestServiceProxy)categoryRestService).setResource(resource);
+
+
+        if (selectedCategory == null) {
+            Category newCategory = new Category();
+            newCategory.setName(name.getValue());
+            selectedCategory.getSubCategories().add(newCategory);
+            categoryRestService.create(newCategory, new MethodCallback<Void>() {
+                @Override
+                public void onFailure(Method method, Throwable throwable) {
+                    Window.alert("dough "+ throwable.getMessage());
                 }
 
-                public void onResponseReceived(Request request, Response response) {
-//                    if (200 == response.getStatusCode()) {
-//                        updateTable(JsonUtils.<JsArray<StockData>>safeEval(response.getText()));
-//                    } else {
-//                        displayError("Couldn't retrieve JSON (" + response.getStatusText()
-//                                + ")");
-//                    }
-                    int status = response.getStatusCode();
+                @Override
+                public void onSuccess(Method method, Void aVoid) {
+                    Window.alert("yahoo");
                 }
             });
-        } catch (RequestException e) {
-            Window.alert("Couldn't retrieve JSON");
+        } else {
+            Category newCategory = new Category();
+            newCategory.setName(name.getValue());
+            selectedCategory.getSubCategories().add(newCategory);
+            categoryRestService.create(newCategory, new MethodCallback<Void>() {
+                @Override
+                public void onFailure(Method method, Throwable throwable) {
+                    Window.alert("dough "+ throwable.getMessage());
+                }
+
+                @Override
+                public void onSuccess(Method method, Void aVoid) {
+                    Window.alert("yahoo");
+                }
+            });
         }
     }
 

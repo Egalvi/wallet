@@ -1,11 +1,8 @@
 package ru.egalvi.wallet.client.crud;
 
 import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.view.client.DefaultSelectionEventManager;
-import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.view.client.TreeViewModel;
+import com.google.gwt.view.client.*;
 import ru.egalvi.wallet.shared.domain.Category;
 import ru.egalvi.wallet.shared.domain.Purchase;
 
@@ -13,6 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PurchasesViewModel implements TreeViewModel {
+
+    SingleSelectionModel<Object> selectionModel;
+
+    public PurchasesViewModel(SingleSelectionModel<Object> selectionModel){
+        this.selectionModel = selectionModel;
+    }
 
     /**
      * Get the {@link NodeInfo} that provides the children of the specified
@@ -50,9 +53,14 @@ public class PurchasesViewModel implements TreeViewModel {
 
         if (value == null) {
             // Return a node info that pairs the data with a cell.
-            return new DefaultNodeInfo<Category>(dataProvider, new CategoryCell());
-        } else /*if (value instanceof Category)*/{
-            return new DefaultNodeInfo<Category>(new ListDataProvider<Category>((List<Category>)((Category)value).getSubCategories()), new CategoryCell());
+
+            return new DefaultNodeInfo<Category>(dataProvider, new CategoryCell(), selectionModel,
+                    DefaultSelectionEventManager.<Category>createDefaultManager(), null);
+        } else /*if (value instanceof Category)*/ {
+            return new DefaultNodeInfo<Category>(
+                    new ListDataProvider<Category>((List<Category>) ((Category) value).getSubCategories()),
+                    new CategoryCell(),
+                    selectionModel, DefaultSelectionEventManager.<Category>createDefaultManager(), null);
         }
     }
 
@@ -61,9 +69,10 @@ public class PurchasesViewModel implements TreeViewModel {
      * opened.
      */
     public boolean isLeaf(Object value) {
-        // The maximum length of a value is ten characters.
-        return value instanceof Purchase;
+//        return value instanceof Purchase;
+        return value != null && (((Category) value).getSubCategories() == null || ((Category) value).getSubCategories().isEmpty());
     }
+
 
     private static class CategoryCell extends AbstractCell<Category> {
 

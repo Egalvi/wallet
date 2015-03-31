@@ -3,15 +3,20 @@
              xmlns:c='urn:import:com.google.gwt.user.cellview.client'>
     <ui:style>
         .browser {
-        height: 200px;
-        border: 1px solid #ccc;
+            /*height: 200px;*/
+            border: 1px solid #ccc;
+            width: 500px;
+        }
+
+        .addPanel{
+            padding-left: 550px;
         }
     </ui:style>
     <g:HTMLPanel>
         <g:HTMLPanel>
-            <c:CellBrowser addStyleNames='{style.browser}' defaultColumnWidth='300' ui:field='cellBrowser'/>
+            <c:CellTree addStyleNames='{style.browser}' ui:field='cellBrowser'/>
         </g:HTMLPanel>
-        <g:HTMLPanel>
+        <g:HTMLPanel addStyleNames='{style.addPanel}'>
             <g:Label text="Name:" width="50"/>
             <g:TextBox ui:field="name" width="100"/>
             <g:Button ui:field="addButton" text="Add" width="50"/>
