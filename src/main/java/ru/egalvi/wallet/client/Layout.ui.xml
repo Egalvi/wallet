@@ -5,8 +5,11 @@
         <g:Label>Wallet - financial management system</g:Label>
 
         <section>
-            <c:CrudWidget />
+            <c:CrudWidget ui:field='crudWidget' />
 
+        </section>
+        <section>
+            <c:PurchaseWidget ui:field='purchaseWidget' />
         </section>
     </g:HTMLPanel>
 

@@ -16,6 +16,7 @@ import ru.egalvi.wallet.shared.domain.Purchase;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 public class PurchasesViewModel implements TreeViewModel {
@@ -34,6 +35,17 @@ public class PurchasesViewModel implements TreeViewModel {
     public <T> NodeInfo<?> getNodeInfo(T value) {
         final Category rootCategory = new Category();
         rootCategory.setName("/");
+
+        Purchase purchase = new Purchase();
+        purchase.setName("One");
+        purchase.setDate(new Date());
+        purchase.setComment("sdfasdf");
+        purchase.setPrice(43543l);
+        purchase.setUnit("df");
+        purchase.setQuantity(3.0);
+        rootCategory.setPurchases(new ArrayList<Purchase>());
+        rootCategory.getPurchases().add(purchase);
+
 
         Resource resource = new Resource(GWT.getModuleBaseURL());
         CategoryRestService categoryRestService = GWT.create(CategoryRestService.class);
