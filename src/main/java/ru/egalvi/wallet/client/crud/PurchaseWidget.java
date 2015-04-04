@@ -24,6 +24,8 @@ public class PurchaseWidget extends Composite {
 
     @UiField(provided = true)
     CellTable<Purchase> cellTable;
+    @UiField
+    PurchaseAddWidget purchaseAdd;
 
     public PurchaseWidget() {
         cellTable = new CellTable<>();
@@ -80,7 +82,9 @@ public class PurchaseWidget extends Composite {
             @Override
             public void onCategorySelected(CategorySelectedEvent сategorySelectedEvent) {
                 //TODO possible NPE
-                cellTable.setRowData((List<Purchase>) сategorySelectedEvent.getCategory().getPurchases());
+                Category category = сategorySelectedEvent.getCategory();
+                cellTable.setRowData((List<Purchase>) category.getPurchases());
+                purchaseAdd.setCategory(category);
             }
         });
 
