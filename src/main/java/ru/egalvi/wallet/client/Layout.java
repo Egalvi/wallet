@@ -21,6 +21,5 @@ public class Layout extends Composite {
 
     public Layout() {
         initWidget(uiBinder.createAndBindUi(this));
-        crudWidget.setCellTable(purchaseWidget);
     }
 }

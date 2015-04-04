@@ -5,7 +5,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -19,8 +18,8 @@ import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.Resource;
 import org.fusesource.restygwt.client.RestServiceProxy;
 import ru.egalvi.wallet.client.CategoryRestService;
+import ru.egalvi.wallet.client.Wallet;
 import ru.egalvi.wallet.shared.domain.Category;
-import ru.egalvi.wallet.shared.domain.Purchase;
 
 public class CrudWidget extends Composite {
     interface MyUiBinder extends UiBinder<Widget, CrudWidget> {
@@ -37,12 +36,6 @@ public class CrudWidget extends Composite {
     @UiField(provided = true)
     CellTree cellBrowser;
 
-
-    PurchaseWidget purchaseWidget;
-    public void setCellTable(PurchaseWidget purchaseWidget){
-        this.purchaseWidget=purchaseWidget;
-    }
-
     private final PurchasesViewModel viewModel;
 
     private Category selectedCategory = null;
@@ -54,9 +47,7 @@ public class CrudWidget extends Composite {
             public void onSelectionChange(SelectionChangeEvent selectionChangeEvent) {
                 Object source = ((SingleSelectionModel) selectionChangeEvent.getSource()).getSelectedObject();
                 selectedCategory = (Category) source;
-                if(purchaseWidget!=null){
-                    purchaseWidget.setData(selectedCategory);
-                }
+                Wallet.EVENT_BUS.fireEvent(new CategorySelectedEvent(selectedCategory));
             }
         });
         viewModel = new PurchasesViewModel(selectionModel);
@@ -80,7 +71,7 @@ public class CrudWidget extends Composite {
             categoryRestService.create(newCategory, new MethodCallback<Void>() {
                 @Override
                 public void onFailure(Method method, Throwable throwable) {
-                    Window.alert("dough "+ throwable.getMessage());
+                    Window.alert("D'oh! "+ throwable.getMessage());
                 }
 
                 @Override
@@ -93,7 +84,7 @@ public class CrudWidget extends Composite {
             categoryRestService.create(selectedCategory, new MethodCallback<Void>() {
                 @Override
                 public void onFailure(Method method, Throwable throwable) {
-                    Window.alert("dough "+ throwable.getMessage());
+                    Window.alert("D'oh! "+ throwable.getMessage());
                 }
 
                 @Override

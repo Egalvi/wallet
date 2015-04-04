@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
+import ru.egalvi.wallet.client.Wallet;
 import ru.egalvi.wallet.shared.domain.Category;
 import ru.egalvi.wallet.shared.domain.Purchase;
 
@@ -75,13 +76,14 @@ public class PurchaseWidget extends Composite {
         };
         cellTable.addColumn(unitColumn,"Unit");
 
+        Wallet.EVENT_BUS.addHandler(CategorySelectedEvent.TYPE, new CategorySelectedEvent.CategorySelectedEventHandler() {
+            @Override
+            public void onCategorySelected(CategorySelectedEvent сategorySelectedEvent) {
+                //TODO possible NPE
+                cellTable.setRowData((List<Purchase>) сategorySelectedEvent.getCategory().getPurchases());
+            }
+        });
+
         initWidget(uiBinder.createAndBindUi(this));
-    }
-
-
-    public void setData(Category category){
-        if(category.getPurchases()!=null) {
-            cellTable.setRowData((List<Purchase>)category.getPurchases());
-        }
     }
 }
