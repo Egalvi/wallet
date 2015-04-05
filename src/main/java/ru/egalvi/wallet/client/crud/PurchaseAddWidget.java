@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.datepicker.client.DateBox;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.Resource;
@@ -32,7 +33,7 @@ public class PurchaseAddWidget extends Composite {
     @UiField
     TextBox name;
     @UiField
-    TextBox date;
+    DateBox date;
     @UiField
     TextBox price;
     @UiField
@@ -56,7 +57,7 @@ public class PurchaseAddWidget extends Composite {
     public void addButtonHandler(ClickEvent clickEvent) {
         Purchase purchase = new Purchase();
         purchase.setName(name.getText());
-        purchase.setDate(new Date());
+        purchase.setDate(date.getValue());
         purchase.setPrice(Long.parseLong(price.getText()));
         purchase.setComment(comment.getText());
         purchase.setQuantity(Double.parseDouble(quantity.getText()));

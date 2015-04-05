@@ -1,5 +1,6 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:dp='urn:import:com.google.gwt.user.datepicker.client'>
 
     <g:HTMLPanel>
         <section>
@@ -8,7 +9,7 @@
         </section>
         <section>
             <g:Label text="Date:" width="50"/>
-            <g:TextBox ui:field="date" width="100"/>
+            <dp:DateBox ui:field="date" width="100"/>
         </section>
         <section>
             <g:Label text="Price:" width="50"/>
