@@ -1,26 +1,54 @@
 package ru.egalvi.wallet.client.crud;
 
+import com.google.gwt.cell.client.DateCell;
+import com.google.gwt.cell.client.DatePickerCell;
+import com.google.gwt.cell.client.EditTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.CellTree;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+import org.fusesource.restygwt.client.Resource;
+import org.fusesource.restygwt.client.RestServiceProxy;
+import ru.egalvi.wallet.client.CategoryRestService;
 import ru.egalvi.wallet.client.Wallet;
 import ru.egalvi.wallet.shared.domain.Category;
 import ru.egalvi.wallet.shared.domain.Purchase;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class PurchaseWidget extends Composite {
+
+    public static final MethodCallback<Category> VOID_CALLBACK = new MethodCallback<Category>() {
+        @Override
+        public void onFailure(Method method, Throwable exception) {
+            Window.alert("D'oh! " + exception);
+        }
+
+        @Override
+        public void onSuccess(Method method, Category response) {
+            Window.alert("Ok!");
+        }
+    };
+
     interface MyUiBinder extends UiBinder<Widget, PurchaseWidget> {
     }
 
     private static MyUiBinder uiBinder = GWT.create(MyUiBinder.class);
+
+    private Category selectedCategory;
 
     @UiField(provided = true)
     CellTable<Purchase> cellTable;
@@ -28,63 +56,131 @@ public class PurchaseWidget extends Composite {
     PurchaseAddWidget purchaseAdd;
 
     public PurchaseWidget() {
+        Resource resource = new Resource(GWT.getModuleBaseURL());
+        final CategoryRestService categoryRestService = GWT.create(CategoryRestService.class);
+        ((RestServiceProxy) categoryRestService).setResource(resource);
+
         cellTable = new CellTable<>();
 
-        TextColumn<Purchase> nameColumn = new TextColumn<Purchase>() {
+        // Purchase name.
+        Column<Purchase, String> nameColumn = new Column<Purchase, String>(new EditTextCell()) {
             @Override
-            public String getValue(Purchase purchase) {
-                return purchase.getName();
+            public String getValue(Purchase object) {
+                return object.getName();
             }
         };
-        cellTable.addColumn(nameColumn,"Name");
-
-        TextColumn<Purchase> dateColumn = new TextColumn<Purchase>() {
+        //TODO add sorting ability?
+        //TODO too much code duplication
+        nameColumn.setFieldUpdater(new FieldUpdater<Purchase, String>() {
             @Override
-            public String getValue(Purchase purchase) {
-                return purchase.getDate().toString();
+            public void update(int index, Purchase object, String value) {
+                // Called when the user ends to change the value.
+                selectedCategory.getPurchases().remove(object);
+                object.setName(value);
+                selectedCategory.getPurchases().add(object);
+                categoryRestService.update(selectedCategory.getId(), selectedCategory, VOID_CALLBACK);
+            }
+        });
+        cellTable.addColumn(nameColumn, "Name");
+
+        Column<Purchase, Date> dateColumn = new Column<Purchase, Date>(new DatePickerCell()) {
+            @Override
+            public Date getValue(Purchase purchase) {
+                return purchase.getDate();
             }
         };
-        cellTable.addColumn(dateColumn,"Date");
+        dateColumn.setFieldUpdater(new FieldUpdater<Purchase, Date>() {
+            @Override
+            public void update(int index, Purchase object, Date value) {
+                selectedCategory.getPurchases().remove(object);
+                object.setDate(value);
+                selectedCategory.getPurchases().add(object);
+                categoryRestService.update(selectedCategory.getId(), selectedCategory, VOID_CALLBACK);
+            }
+        });
+        cellTable.addColumn(dateColumn, "Date");
 
-        TextColumn<Purchase> priceColumn = new TextColumn<Purchase>() {
+        Column<Purchase, String> priceColumn =new Column<Purchase, String>(new EditTextCell()) {
             @Override
             public String getValue(Purchase purchase) {
                 return purchase.getPrice().toString();
             }
         };
-        cellTable.addColumn(priceColumn,"Price");
+        priceColumn.setFieldUpdater(new FieldUpdater<Purchase, String>() {
+            @Override
+            public void update(int index, Purchase object, String value) {
+                // Called when the user ends to change the value.
+                selectedCategory.getPurchases().remove(object);
+                object.setPrice(Long.parseLong(value));
+                selectedCategory.getPurchases().add(object);
+                categoryRestService.update(selectedCategory.getId(), selectedCategory, VOID_CALLBACK);
+            }
+        });
+        cellTable.addColumn(priceColumn, "Price");
 
-        TextColumn<Purchase> commentColumn = new TextColumn<Purchase>() {
+        Column<Purchase, String> commentColumn = new Column<Purchase, String>(new EditTextCell()) {
             @Override
             public String getValue(Purchase purchase) {
                 return purchase.getComment();
             }
         };
-        cellTable.addColumn(commentColumn,"Comment");
+        commentColumn.setFieldUpdater(new FieldUpdater<Purchase, String>() {
+            @Override
+            public void update(int index, Purchase object, String value) {
+                // Called when the user ends to change the value.
+                selectedCategory.getPurchases().remove(object);
+                object.setComment(value);
+                selectedCategory.getPurchases().add(object);
+                categoryRestService.update(selectedCategory.getId(), selectedCategory, VOID_CALLBACK);
+            }
+        });
+        cellTable.addColumn(commentColumn, "Comment");
 
-        TextColumn<Purchase> quantityColumn = new TextColumn<Purchase>() {
+        Column<Purchase, String> quantityColumn = new Column<Purchase, String>(new EditTextCell()) {
             @Override
             public String getValue(Purchase purchase) {
                 return purchase.getQuantity().toString();
             }
         };
-        cellTable.addColumn(quantityColumn,"Quantity");
+        quantityColumn.setFieldUpdater(new FieldUpdater<Purchase, String>() {
+            @Override
+            public void update(int index, Purchase object, String value) {
+                // Called when the user ends to change the value.
+                selectedCategory.getPurchases().remove(object);
+                object.setQuantity(Double.parseDouble(value));
+                selectedCategory.getPurchases().add(object);
+                categoryRestService.update(selectedCategory.getId(), selectedCategory, VOID_CALLBACK);
+            }
+        });
+        cellTable.addColumn(quantityColumn, "Quantity");
 
-        TextColumn<Purchase> unitColumn = new TextColumn<Purchase>() {
+        Column<Purchase, String> unitColumn = new Column<Purchase, String>(new EditTextCell()) {
             @Override
             public String getValue(Purchase purchase) {
                 return purchase.getUnit();
             }
         };
-        cellTable.addColumn(unitColumn,"Unit");
+        unitColumn.setFieldUpdater(new FieldUpdater<Purchase, String>() {
+            @Override
+            public void update(int index, Purchase object, String value) {
+                // Called when the user ends to change the value.
+                selectedCategory.getPurchases().remove(object);
+                object.setUnit(value);
+                selectedCategory.getPurchases().add(object);
+                categoryRestService.update(selectedCategory.getId(), selectedCategory, VOID_CALLBACK);
+            }
+        });
+        cellTable.addColumn(unitColumn, "Unit");
 
         Wallet.EVENT_BUS.addHandler(CategorySelectedEvent.TYPE, new CategorySelectedEvent.CategorySelectedEventHandler() {
             @Override
             public void onCategorySelected(CategorySelectedEvent сategorySelectedEvent) {
                 //TODO possible NPE
-                Category category = сategorySelectedEvent.getCategory();
-                cellTable.setRowData((List<Purchase>) category.getPurchases());
-                purchaseAdd.setCategory(category);
+                selectedCategory = сategorySelectedEvent.getCategory();
+                if (selectedCategory != null && selectedCategory.getPurchases() != null) {
+                    cellTable.setRowData((List<Purchase>) selectedCategory.getPurchases());
+                }
+                purchaseAdd.setCategory(selectedCategory);
             }
         });
 

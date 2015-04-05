@@ -79,4 +79,19 @@ public class Purchase implements Serializable {
     public void setUnit(String unit) {
         this.unit = unit;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Purchase purchase = (Purchase) o;
+
+        return !(id != null ? !id.equals(purchase.id) : purchase.id != null);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }
