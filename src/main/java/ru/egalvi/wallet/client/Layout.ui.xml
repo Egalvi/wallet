@@ -11,10 +11,9 @@
         <section>
             <c:PurchaseWidget ui:field='purchaseWidget' />
         </section>
+        <section>
+            <c:DefaultContentGeneratorWidget />
+        </section>
     </g:HTMLPanel>
-
-    <!--<g:HTMLPanel>-->
-
-    <!--</g:HTMLPanel>-->
 
 </ui:UiBinder>
