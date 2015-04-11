@@ -2,6 +2,7 @@ package ru.egalvi.wallet.client.crud;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -27,26 +28,29 @@ public class CrudWidget extends Composite {
 
     private static MyUiBinder uiBinder = GWT.create(MyUiBinder.class);
 
-    private static final String JSON_URL = GWT.getModuleBaseURL() + "category";
-
-    @UiField
-    Button addButton;
-    @UiField
-    TextBox name;
     @UiField(provided = true)
     CellTree cellBrowser;
+    @UiField
+    CategoryAddWidget createWidget;
+    @UiField
+    CategoryAddWidget viewWidget;
 
     private final PurchasesViewModel viewModel;
 
     private Category selectedCategory = null;
 
     public CrudWidget() {
+        Resource resource = new Resource(GWT.getModuleBaseURL());
+        final CategoryRestService categoryRestService = GWT.create(CategoryRestService.class);
+        ((RestServiceProxy)categoryRestService).setResource(resource);
+
         SingleSelectionModel<Object> selectionModel = new SingleSelectionModel<>();
         selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
             @Override
             public void onSelectionChange(SelectionChangeEvent selectionChangeEvent) {
                 Object source = ((SingleSelectionModel) selectionChangeEvent.getSource()).getSelectedObject();
                 selectedCategory = (Category) source;
+                viewWidget.setCategory(selectedCategory);
                 Wallet.EVENT_BUS.fireEvent(new CategorySelectedEvent(selectedCategory));
             }
         });
@@ -54,45 +58,42 @@ public class CrudWidget extends Composite {
         cellBrowser = new CellTree(viewModel, null);
         cellBrowser.setAnimationEnabled(true);
         initWidget(uiBinder.createAndBindUi(this));
-    }
+        createWidget.getSaveButton().addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                Category newCategory = createWidget.getCategory();
+                //TODO refresh view on every update
+                if (selectedCategory.getId() == null) {
+                    selectedCategory.getSubCategories().add(newCategory);
+                    categoryRestService.create(newCategory, new MethodCallback<Void>() {
+                        @Override
+                        public void onFailure(Method method, Throwable throwable) {
+                            Window.alert("D'oh! "+ throwable.getMessage());
+                        }
 
-    @UiHandler("addButton")
-    public void addButtonHandler(ClickEvent clickEvent) {
-        Resource resource = new Resource(GWT.getModuleBaseURL());
-        CategoryRestService categoryRestService = GWT.create(CategoryRestService.class);
-        ((RestServiceProxy)categoryRestService).setResource(resource);
-
-        Category newCategory = new Category();
-        newCategory.setName(name.getValue());
-
-        //TODO refresh view on every update
-        if (selectedCategory.getId() == null) {
-            selectedCategory.getSubCategories().add(newCategory);
-            categoryRestService.create(newCategory, new MethodCallback<Void>() {
-                @Override
-                public void onFailure(Method method, Throwable throwable) {
-                    Window.alert("D'oh! "+ throwable.getMessage());
-                }
-
-                @Override
-                public void onSuccess(Method method, Void aVoid) {
+                        @Override
+                        public void onSuccess(Method method, Void aVoid) {
 //                    Window.alert("yahoo");
-                }
-            });
-        } else {
-            selectedCategory.getSubCategories().add(newCategory);
-            categoryRestService.create(selectedCategory, new MethodCallback<Void>() {
-                @Override
-                public void onFailure(Method method, Throwable throwable) {
-                    Window.alert("D'oh! "+ throwable.getMessage());
-                }
+                        }
+                    });
+                } else {
+                    selectedCategory.getSubCategories().add(newCategory);
+                    categoryRestService.create(selectedCategory, new MethodCallback<Void>() {
+                        @Override
+                        public void onFailure(Method method, Throwable throwable) {
+                            Window.alert("D'oh! "+ throwable.getMessage());
+                        }
 
-                @Override
-                public void onSuccess(Method method, Void aVoid) {
+                        @Override
+                        public void onSuccess(Method method, Void aVoid) {
 //                    Window.alert("yahoo");
+                        }
+                    });
                 }
-            });
-        }
-    }
+            }
+        });
 
+
+
+    }
 }
