@@ -28,6 +28,18 @@ public class CrudWidget extends Composite {
 
     private static MyUiBinder uiBinder = GWT.create(MyUiBinder.class);
 
+    private static MethodCallback<Void> callback = new MethodCallback<Void>() {
+        @Override
+        public void onFailure(Method method, Throwable throwable) {
+            Window.alert("D'oh! " + throwable.getMessage());
+        }
+
+        @Override
+        public void onSuccess(Method method, Void aVoid) {
+//                    Window.alert("yahoo");
+        }
+    };
+
     @UiField(provided = true)
     CellTree cellBrowser;
     @UiField
@@ -42,7 +54,7 @@ public class CrudWidget extends Composite {
     public CrudWidget() {
         Resource resource = new Resource(GWT.getModuleBaseURL());
         final CategoryRestService categoryRestService = GWT.create(CategoryRestService.class);
-        ((RestServiceProxy)categoryRestService).setResource(resource);
+        ((RestServiceProxy) categoryRestService).setResource(resource);
 
         SingleSelectionModel<Object> selectionModel = new SingleSelectionModel<>();
         selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -58,41 +70,54 @@ public class CrudWidget extends Composite {
         cellBrowser = new CellTree(viewModel, null);
         cellBrowser.setAnimationEnabled(true);
         initWidget(uiBinder.createAndBindUi(this));
-        createWidget.getSaveButton().addClickHandler(new ClickHandler() {
+        viewWidget.getSaveButton().addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                Category newCategory = createWidget.getCategory();
+                Category newCategory = viewWidget.getCategory();
                 //TODO refresh view on every update
-                if (selectedCategory.getId() == null) {
-                    selectedCategory.getSubCategories().add(newCategory);
-                    categoryRestService.create(newCategory, new MethodCallback<Void>() {
+                if (newCategory.getId() != null) {
+                    categoryRestService.update(newCategory.getId(), newCategory, new MethodCallback<Category>() {
                         @Override
-                        public void onFailure(Method method, Throwable throwable) {
-                            Window.alert("D'oh! "+ throwable.getMessage());
+                        public void onFailure(Method method, Throwable exception) {
+                            Window.alert("D'oh! " + exception.getMessage());
                         }
 
                         @Override
-                        public void onSuccess(Method method, Void aVoid) {
-//                    Window.alert("yahoo");
-                        }
-                    });
-                } else {
-                    selectedCategory.getSubCategories().add(newCategory);
-                    categoryRestService.create(selectedCategory, new MethodCallback<Void>() {
-                        @Override
-                        public void onFailure(Method method, Throwable throwable) {
-                            Window.alert("D'oh! "+ throwable.getMessage());
-                        }
+                        public void onSuccess(Method method, Category response) {
 
-                        @Override
-                        public void onSuccess(Method method, Void aVoid) {
-//                    Window.alert("yahoo");
                         }
                     });
                 }
             }
         });
+        createWidget.getSaveButton().addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                Category newCategory = createWidget.getCategory();
+                //TODO refresh view on every update
+                if (newCategory.getId() != null) {
+                    categoryRestService.update(newCategory.getId(), newCategory, new MethodCallback<Category>() {
+                        @Override
+                        public void onFailure(Method method, Throwable exception) {
+                            Window.alert("D'oh! " + exception.getMessage());
+                        }
 
+                        @Override
+                        public void onSuccess(Method method, Category response) {
+
+                        }
+                    });
+                } else {
+                    if (selectedCategory.getId() == null) {
+                        selectedCategory.getSubCategories().add(newCategory);
+                        categoryRestService.create(newCategory, callback);
+                    } else {
+                        selectedCategory.getSubCategories().add(newCategory);
+                        categoryRestService.create(selectedCategory, callback);
+                    }
+                }
+            }
+        });
 
 
     }

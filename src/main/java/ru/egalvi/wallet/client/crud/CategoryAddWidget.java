@@ -1,8 +1,10 @@
 package ru.egalvi.wallet.client.crud;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TextBox;
@@ -18,24 +20,36 @@ public class CategoryAddWidget extends Composite {
     @UiField
     Button saveButton;
     @UiField
+    Button editButton;
+    @UiField
     TextBox name;
 
     private Category category;
 
-    private boolean editable;
+    private boolean editable = true;
 
     public CategoryAddWidget() {
         initWidget(uiBinder.createAndBindUi(this));
+        setEditable(editable);
     }
 
     public Button getSaveButton() {
         return saveButton;
     }
 
+    public Button getEditButton() {
+        return editButton;
+    }
+
     public Category getCategory() {
-        Category category = new Category();
-        category.setName(name.getValue());
-        return category;
+        Category newCategory;
+        if(category != null){
+            newCategory = category;
+        } else {
+            newCategory = new Category();
+        }
+        newCategory.setName(name.getValue());
+        return newCategory;
     }
 
     public void setCategory(Category category) {
@@ -46,6 +60,12 @@ public class CategoryAddWidget extends Composite {
     public void setEditable(boolean editable) {
         this.editable = editable;
         name.setEnabled(editable);
-        saveButton.setEnabled(editable);
+        saveButton.setVisible(editable);
+        editButton.setVisible(!editable);
+    }
+
+    @UiHandler("editButton")
+    void editButtonClick(ClickEvent event){
+        setEditable(true);
     }
 }

@@ -10,6 +10,7 @@
         <g:Label text="Name:" width="50" addStyleNames="{style.categoryAddWidgetLabel}"/>
         <g:TextBox ui:field="name" width="100"/>
         <g:Button ui:field="saveButton" text="Save" width="50"/>
+        <g:Button ui:field="editButton" text="Edit" width="50"/>
     </g:HTMLPanel>
 
 </ui:UiBinder>
