@@ -63,6 +63,7 @@ public class CrudWidget extends Composite {
                 Object source = ((SingleSelectionModel) selectionChangeEvent.getSource()).getSelectedObject();
                 selectedCategory = (Category) source;
                 viewWidget.setCategory(selectedCategory);
+                viewWidget.setEditable(false);
                 Wallet.EVENT_BUS.fireEvent(new CategorySelectedEvent(selectedCategory));
             }
         });
@@ -84,7 +85,7 @@ public class CrudWidget extends Composite {
 
                         @Override
                         public void onSuccess(Method method, Category response) {
-
+                            viewWidget.setEditable(false);
                         }
                     });
                 }
