@@ -1,21 +1,14 @@
 package ru.egalvi.wallet.client.crud;
 
-import com.google.gwt.cell.client.DateCell;
-import com.google.gwt.cell.client.DatePickerCell;
-import com.google.gwt.cell.client.EditTextCell;
-import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.cell.client.*;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SingleSelectionModel;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.Resource;
@@ -25,13 +18,23 @@ import ru.egalvi.wallet.client.Wallet;
 import ru.egalvi.wallet.shared.domain.Category;
 import ru.egalvi.wallet.shared.domain.Purchase;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class PurchaseWidget extends Composite {
 
     public static final MethodCallback<Category> VOID_CALLBACK = new MethodCallback<Category>() {
+        @Override
+        public void onFailure(Method method, Throwable exception) {
+            Window.alert("D'oh! " + exception);
+        }
+
+        @Override
+        public void onSuccess(Method method, Category response) {
+            Window.alert("Ok!");
+        }
+    };
+
+    public static final MethodCallback<Category> VOID_UPDATE_CALLBACK = new MethodCallback<Category>() {
         @Override
         public void onFailure(Method method, Throwable exception) {
             Window.alert("D'oh! " + exception);
@@ -172,6 +175,50 @@ public class PurchaseWidget extends Composite {
         });
         cellTable.addColumn(unitColumn, "Unit");
 
+        final List<String> categories = new ArrayList<>();
+        categoryRestService.getAllCategories(new MethodCallback<Collection<Category>>() {
+            @Override
+            public void onFailure(Method method, Throwable exception) {
+
+            }
+
+            @Override
+            public void onSuccess(Method method, Collection<Category> response) {
+                CATEGORIES = response;
+                for (Category category : response) {
+                    categories.add(category.getName());
+                }
+                CATEGORY_NAMES = categories;
+                final Column<Purchase, String> categoryColumn = new Column<Purchase, String>(new SelectionCell(CATEGORY_NAMES)) {
+                    @Override
+                    public String getValue(Purchase object) {
+                        return selectedCategory.getName();
+                    }
+                };
+                categoryColumn.setFieldUpdater(new FieldUpdater<Purchase, String>() {
+                    @Override
+                    public void update(int index, Purchase object, String value) {
+                        selectedCategory.getPurchases().remove(object);
+                        Category newCategory = null;
+                        object.setId(null);
+                        for (Category category : CATEGORIES) {
+                            if (category.getName().equals(value)) {
+                                newCategory = category;
+                                if (newCategory.getPurchases() == null) {
+                                    newCategory.setPurchases(new ArrayList<Purchase>());
+                                }
+                                newCategory.getPurchases().add(object);
+                                break;
+                            }
+                        }
+                        categoryRestService.update(selectedCategory.getId(), selectedCategory, VOID_UPDATE_CALLBACK);
+                        categoryRestService.update(newCategory.getId(), newCategory, VOID_UPDATE_CALLBACK);
+                    }
+                });
+                cellTable.addColumn(categoryColumn, "Category");
+            }
+        });
+
         Wallet.EVENT_BUS.addHandler(CategorySelectedEvent.TYPE, new CategorySelectedEvent.CategorySelectedEventHandler() {
             @Override
             public void onCategorySelected(CategorySelectedEvent сategorySelectedEvent) {
@@ -186,4 +233,8 @@ public class PurchaseWidget extends Composite {
 
         initWidget(uiBinder.createAndBindUi(this));
     }
+
+
+    private static Collection<Category> CATEGORIES;
+    private static List<String> CATEGORY_NAMES;
 }

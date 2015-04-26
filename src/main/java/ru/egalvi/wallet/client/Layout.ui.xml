@@ -9,6 +9,7 @@
 
         </section>
         <section>
+            <g:Label>Purchases attached to the selected category:</g:Label>
             <c:PurchaseWidget ui:field='purchaseWidget' />
         </section>
         <section>
