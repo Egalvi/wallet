@@ -43,7 +43,7 @@ public class CategoryAddWidget extends Composite {
 
     public Category getCategory() {
         Category newCategory;
-        if(category != null){
+        if (category != null) {
             newCategory = category;
         } else {
             newCategory = new Category();
@@ -65,7 +65,7 @@ public class CategoryAddWidget extends Composite {
     }
 
     @UiHandler("editButton")
-    void editButtonClick(ClickEvent event){
+    void editButtonClick(ClickEvent event) {
         setEditable(true);
     }
 }

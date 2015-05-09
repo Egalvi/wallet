@@ -1,6 +1,9 @@
 package ru.egalvi.wallet.client.crud;
 
-import com.google.gwt.cell.client.*;
+import com.google.gwt.cell.client.DatePickerCell;
+import com.google.gwt.cell.client.EditTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.cell.client.SelectionCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -18,7 +21,10 @@ import ru.egalvi.wallet.client.Wallet;
 import ru.egalvi.wallet.shared.domain.Category;
 import ru.egalvi.wallet.shared.domain.Purchase;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 public class PurchaseWidget extends Composite {
 
@@ -103,7 +109,7 @@ public class PurchaseWidget extends Composite {
         });
         cellTable.addColumn(dateColumn, "Date");
 
-        Column<Purchase, String> priceColumn =new Column<Purchase, String>(new EditTextCell()) {
+        Column<Purchase, String> priceColumn = new Column<Purchase, String>(new EditTextCell()) {
             @Override
             public String getValue(Purchase purchase) {
                 return purchase.getPrice().toString();

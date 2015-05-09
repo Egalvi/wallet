@@ -1,8 +1,8 @@
 package ru.egalvi.wallet.server.persistence.service.impl;
 
 import org.springframework.stereotype.Service;
-import ru.egalvi.wallet.server.persistence.repository.domain.Category;
 import ru.egalvi.wallet.server.persistence.repository.CategoryRepository;
+import ru.egalvi.wallet.server.persistence.repository.domain.Category;
 import ru.egalvi.wallet.server.persistence.service.CategoryService;
 import ru.egalvi.wallet.server.persistence.service.EntityNotFoundException;
 

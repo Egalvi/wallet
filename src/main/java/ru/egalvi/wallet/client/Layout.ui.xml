@@ -1,19 +1,44 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:c='urn:import:ru.egalvi.wallet.client.crud'>
+    <ui:style>
+        @external browser, title, selected-category, purchase-add;
+        .browser {
+            /*height: 200px;*/
+            border: 1px solid #ccc;
+            width: 500px;
+            float: left;
+            height: 500px;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: auto;
+            display: inline-block;
+        }
+
+        .selected-category {
+            position: fixed;
+        }
+
+        .purchase-add section {
+            display: inline-block;
+        }
+    </ui:style>
     <g:HTMLPanel>
-        <g:Label>Wallet - financial management system</g:Label>
-
+        <g:Label addStyleNames="title">Wallet - financial management system</g:Label>
         <section>
-            <c:CrudWidget ui:field='crudWidget' />
-
+            <c:CrudWidget ui:field='crudWidget'/>
         </section>
         <section>
             <g:Label>Purchases attached to the selected category:</g:Label>
-            <c:PurchaseWidget ui:field='purchaseWidget' />
+            <c:PurchaseWidget ui:field='purchaseWidget'/>
         </section>
         <section>
-            <c:DefaultContentGeneratorWidget />
+            <c:DefaultContentGeneratorWidget/>
         </section>
     </g:HTMLPanel>
 

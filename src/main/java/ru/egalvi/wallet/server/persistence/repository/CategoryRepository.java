@@ -7,5 +7,6 @@ import java.util.Collection;
 
 public interface CategoryRepository extends CrudRepository<Category, Long> {
     Category findById(Long id);
+
     Collection<Category> findByName(String name);
 }

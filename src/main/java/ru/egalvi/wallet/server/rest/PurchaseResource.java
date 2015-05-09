@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.egalvi.wallet.server.persistence.repository.domain.Purchase;
 import ru.egalvi.wallet.server.persistence.service.CategoryService;
 import ru.egalvi.wallet.server.persistence.service.PurchaseService;
-import ru.egalvi.wallet.server.persistence.service.impl.CategorySericeImpl;
 
 import javax.annotation.Resource;
 import javax.websocket.server.PathParam;
@@ -28,7 +27,7 @@ public class PurchaseResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void create(@PathParam("id") Long id,@RequestBody Purchase purchase){
+    public void create(@PathParam("id") Long id, @RequestBody Purchase purchase) {
 
     }
 

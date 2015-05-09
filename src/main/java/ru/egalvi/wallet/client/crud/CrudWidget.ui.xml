@@ -2,32 +2,17 @@
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
              xmlns:crud='urn:import:ru.egalvi.wallet.client.crud'
              xmlns:c='urn:import:com.google.gwt.user.cellview.client'>
-    <ui:style>
-        .browser {
-            /*height: 200px;*/
-            border: 1px solid #ccc;
-            width: 500px;
-            float: left;
-            height: 500px;
-            padding: 10px;
-            margin: 10px;
-        }
-
-        .addPanel{
-            padding-left: 550px;
-        }
-    </ui:style>
     <g:HTMLPanel>
         <g:HTMLPanel>
-            <c:CellTree addStyleNames='{style.browser}' ui:field='cellBrowser'/>
+            <c:CellTree addStyleNames='browser' ui:field='cellBrowser'/>
         </g:HTMLPanel>
-        <section>
+        <section class="selected-category">
             <g:Label>Selected Category:</g:Label>
-            <crud:CategoryAddWidget ui:field="viewWidget" editable="false" />
+            <crud:CategoryAddWidget ui:field="viewWidget" editable="false"/>
         </section>
         <section>
             <g:Label>Add sub-Category:</g:Label>
-            <crud:CategoryAddWidget ui:field="createWidget" />
+            <crud:CategoryAddWidget ui:field="createWidget"/>
         </section>
     </g:HTMLPanel>
 

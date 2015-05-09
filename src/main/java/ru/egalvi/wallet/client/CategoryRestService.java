@@ -2,8 +2,6 @@ package ru.egalvi.wallet.client;
 
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import ru.egalvi.wallet.shared.domain.Category;
 
 import javax.ws.rs.GET;

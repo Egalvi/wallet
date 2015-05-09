@@ -1,17 +1,12 @@
 package ru.egalvi.wallet.server.rest;
 
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import org.springframework.web.bind.annotation.*;
-import ru.egalvi.wallet.server.persistence.service.CategoryService;
 import ru.egalvi.wallet.server.persistence.repository.domain.Category;
-import ru.egalvi.wallet.server.persistence.repository.domain.Purchase;
+import ru.egalvi.wallet.server.persistence.service.CategoryService;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 @RestController
 @RequestMapping("wallet/category")

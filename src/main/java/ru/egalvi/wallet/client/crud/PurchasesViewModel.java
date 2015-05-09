@@ -1,11 +1,13 @@
 package ru.egalvi.wallet.client.crud;
 
-import com.google.common.collect.Lists;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.view.client.*;
+import com.google.gwt.view.client.DefaultSelectionEventManager;
+import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.gwt.view.client.TreeViewModel;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.Resource;
@@ -49,7 +51,7 @@ public class PurchasesViewModel implements TreeViewModel {
 
         Resource resource = new Resource(GWT.getModuleBaseURL());
         CategoryRestService categoryRestService = GWT.create(CategoryRestService.class);
-        ((RestServiceProxy)categoryRestService).setResource(resource);
+        ((RestServiceProxy) categoryRestService).setResource(resource);
 
         categoryRestService.getAllCategories(new MethodCallback<Collection<Category>>() {
             @Override
@@ -68,7 +70,7 @@ public class PurchasesViewModel implements TreeViewModel {
 //            rootCategory.setSubCategories(dataProvider.getList());
             ListDataProvider<Category> rootDataProvider = new ListDataProvider<>(/*Lists.newArrayList(rootCategory)*/);
             rootDataProvider.getList().add(rootCategory);
-            return new DefaultNodeInfo<Category>(rootDataProvider,new CategoryCell(), selectionModel,
+            return new DefaultNodeInfo<Category>(rootDataProvider, new CategoryCell(), selectionModel,
                     DefaultSelectionEventManager.<Category>createDefaultManager(), null);
         } else /*if (value instanceof Category)*/ {
             return new DefaultNodeInfo<Category>(

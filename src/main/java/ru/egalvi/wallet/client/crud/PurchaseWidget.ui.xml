@@ -4,9 +4,9 @@
              xmlns:p='urn:import:ru.egalvi.wallet.client.crud'>
     <ui:style>
         .cellTable {
-        border-bottom: 1px solid #ccc;
-        text-align: left;
-        margin-bottom: 4px;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+            margin-bottom: 4px;
         }
     </ui:style>
     <g:HTMLPanel>
@@ -22,7 +22,7 @@
         <!--<g:Button ui:field="addButton" text="Add" width="50"/>-->
         <!--</g:HTMLPanel>-->
         <g:HTMLPanel>
-            <p:PurchaseAddWidget ui:field="purchaseAdd" />
+            <p:PurchaseAddWidget ui:field="purchaseAdd" addStyleNames="purchase-add"/>
         </g:HTMLPanel>
 
 

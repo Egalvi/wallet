@@ -20,7 +20,6 @@ import ru.egalvi.wallet.shared.domain.Category;
 import ru.egalvi.wallet.shared.domain.Purchase;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class PurchaseAddWidget extends Composite {
     interface MyUiBinder extends UiBinder<Widget, PurchaseAddWidget> {
