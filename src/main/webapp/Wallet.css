@@ -4,13 +4,13 @@
 h1 {
     font-size: 2em;
     font-weight: bold;
-    color: #777777;
+    color: #555555;
     margin: 40px 0px 70px;
     text-align: center;
 }
 
 body {
-    background-color: #555555;
+    background-color: #999999;
 }
 
 .sendButton {
@@ -21,6 +21,10 @@ body {
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
     width: 400px;
+}
+
+.gwt-Label {
+    font-weight: bold;
 }
 
 .dialogVPanel {
@@ -34,8 +38,4 @@ body {
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
     margin: 15px 6px 6px;
-}
-
-* {
-    border: 1px dashed red;
 }
