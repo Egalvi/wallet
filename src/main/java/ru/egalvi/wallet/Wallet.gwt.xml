@@ -19,6 +19,7 @@
 
     <!-- Other module inherits                                      -->
     <inherits name="org.fusesource.restygwt.RestyGWT"/>
+    <inherits name='com.google.gwt.visualization.Visualization'/>
 
     <!-- Specify the app entry point class.                         -->
     <entry-point class='ru.egalvi.wallet.client.Wallet'/>

@@ -48,4 +48,15 @@ public class Category implements Serializable {
     public void setPurchases(Collection<Purchase> purchases) {
         this.purchases = purchases;
     }
+
+    public long sum() {
+        long sum = 0l;
+        for (Purchase purchase : purchases) {
+            sum += purchase.getPrice();
+        }
+        for (Category category : subCategories){
+            sum += category.sum();
+        }
+        return sum;
+    }
 }
