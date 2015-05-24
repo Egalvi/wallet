@@ -1,6 +1,7 @@
 package ru.egalvi.wallet.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Node;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -53,6 +54,9 @@ public class Pie extends Composite {
                         // Create a pie chart visualization.
                         PieChart pie = new PieChart(dataTable, createOptions());
                         pie.addSelectHandler(createSelectHandler(pie));
+                        if(chartPanel.getWidgetCount() > 0){
+                            chartPanel.remove(0);
+                        }
                         chartPanel.add(pie);
                     }
                 });
