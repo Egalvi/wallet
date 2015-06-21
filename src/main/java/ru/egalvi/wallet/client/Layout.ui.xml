@@ -33,7 +33,7 @@
         }
 
         .category-management button {
-            width: 70px;
+            width: 110px;
         }
 
         .add-category {
@@ -49,12 +49,12 @@
             <c:CrudWidget ui:field='crudWidget'/>
         </section>
         <section>
-            <g:Label>Purchases attached to the selected category:</g:Label>
+            <g:Label>Покупки по выбранной категории:</g:Label>
             <c:PurchaseWidget ui:field='purchaseWidget'/>
         </section>
-        <section>
-            <c:DefaultContentGeneratorWidget/>
-        </section>
+        <!--<section>-->
+            <!--<c:DefaultContentGeneratorWidget/>-->
+        <!--</section>-->
         <section>
             <ch:Pie/>
         </section>

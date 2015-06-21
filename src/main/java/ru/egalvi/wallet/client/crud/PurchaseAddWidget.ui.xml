@@ -4,30 +4,30 @@
 
     <g:HTMLPanel>
         <section>
-            <g:Label text="Name:" width="50"/>
+            <g:Label text="Название:" width="50"/>
             <g:TextBox ui:field="name" width="100"/>
         </section>
         <section>
-            <g:Label text="Date:" width="50"/>
+            <g:Label text="Дата:" width="50"/>
             <dp:DateBox ui:field="date" width="100"/>
         </section>
         <section>
-            <g:Label text="Price:" width="50"/>
+            <g:Label text="Цена:" width="50"/>
             <g:TextBox ui:field="price" width="100"/>
         </section>
         <section>
-            <g:Label text="Comment:" width="50"/>
+            <g:Label text="Комментарий:" width="50"/>
             <g:TextBox ui:field="comment" width="100"/>
         </section>
         <section>
-            <g:Label text="Quantity:" width="50"/>
+            <g:Label text="Количество:" width="50"/>
             <g:TextBox ui:field="quantity" width="100"/>
         </section>
         <section>
-            <g:Label text="Unit:" width="50"/>
+            <g:Label text="Единица измерения:" width="50"/>
             <g:TextBox ui:field="unit" width="100"/>
         </section>
-        <g:Button ui:field="addButton" text="Add" width="50"/>
+        <g:Button ui:field="addButton" text="Добавить" width="50"/>
     </g:HTMLPanel>
 
 </ui:UiBinder>

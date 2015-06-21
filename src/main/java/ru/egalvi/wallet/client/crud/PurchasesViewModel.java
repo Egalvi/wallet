@@ -39,12 +39,12 @@ public class PurchasesViewModel implements TreeViewModel {
         rootCategory.setName("/");
 
         Purchase purchase = new Purchase();
-        purchase.setName("One");
-        purchase.setDate(new Date());
-        purchase.setComment("sdfasdf");
-        purchase.setPrice(43543l);
-        purchase.setUnit("df");
-        purchase.setQuantity(3.0);
+//        purchase.setName("One");
+//        purchase.setDate(new Date());
+//        purchase.setComment("sdfasdf");
+//        purchase.setPrice(43543l);
+//        purchase.setUnit("df");
+//        purchase.setQuantity(3.0);
         rootCategory.setPurchases(new ArrayList<Purchase>());
         rootCategory.getPurchases().add(purchase);
 

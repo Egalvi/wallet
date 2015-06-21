@@ -90,7 +90,7 @@ public class PurchaseWidget extends Composite {
                 categoryRestService.update(selectedCategory.getId(), selectedCategory, VOID_CALLBACK);
             }
         });
-        cellTable.addColumn(nameColumn, "Name");
+        cellTable.addColumn(nameColumn, "Название");
 
         Column<Purchase, Date> dateColumn = new Column<Purchase, Date>(new DatePickerCell()) {
             @Override
@@ -107,7 +107,7 @@ public class PurchaseWidget extends Composite {
                 categoryRestService.update(selectedCategory.getId(), selectedCategory, VOID_CALLBACK);
             }
         });
-        cellTable.addColumn(dateColumn, "Date");
+        cellTable.addColumn(dateColumn, "Дата");
 
         Column<Purchase, String> priceColumn = new Column<Purchase, String>(new EditTextCell()) {
             @Override
@@ -125,7 +125,7 @@ public class PurchaseWidget extends Composite {
                 categoryRestService.update(selectedCategory.getId(), selectedCategory, VOID_CALLBACK);
             }
         });
-        cellTable.addColumn(priceColumn, "Price");
+        cellTable.addColumn(priceColumn, "Цена");
 
         Column<Purchase, String> commentColumn = new Column<Purchase, String>(new EditTextCell()) {
             @Override
@@ -143,7 +143,7 @@ public class PurchaseWidget extends Composite {
                 categoryRestService.update(selectedCategory.getId(), selectedCategory, VOID_CALLBACK);
             }
         });
-        cellTable.addColumn(commentColumn, "Comment");
+        cellTable.addColumn(commentColumn, "Комментарий");
 
         Column<Purchase, String> quantityColumn = new Column<Purchase, String>(new EditTextCell()) {
             @Override
@@ -161,7 +161,7 @@ public class PurchaseWidget extends Composite {
                 categoryRestService.update(selectedCategory.getId(), selectedCategory, VOID_CALLBACK);
             }
         });
-        cellTable.addColumn(quantityColumn, "Quantity");
+        cellTable.addColumn(quantityColumn, "Количество");
 
         Column<Purchase, String> unitColumn = new Column<Purchase, String>(new EditTextCell()) {
             @Override
@@ -179,7 +179,7 @@ public class PurchaseWidget extends Composite {
                 categoryRestService.update(selectedCategory.getId(), selectedCategory, VOID_CALLBACK);
             }
         });
-        cellTable.addColumn(unitColumn, "Unit");
+        cellTable.addColumn(unitColumn, "Единица измерения");
 
         final List<String> categories = new ArrayList<>();
         categoryRestService.getAllCategories(new MethodCallback<Collection<Category>>() {
@@ -221,7 +221,7 @@ public class PurchaseWidget extends Composite {
                         categoryRestService.update(newCategory.getId(), newCategory, VOID_UPDATE_CALLBACK);
                     }
                 });
-                cellTable.addColumn(categoryColumn, "Category");
+                cellTable.addColumn(categoryColumn, "Категория");
             }
         });
 

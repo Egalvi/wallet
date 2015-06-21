@@ -8,11 +8,11 @@
         </g:HTMLPanel>
         <section class="category-management">
             <section class="selected-category">
-                <g:Label>Selected Category:</g:Label>
+                <g:Label>Выбранная категория:</g:Label>
                 <crud:CategoryAddWidget ui:field="viewWidget" editable="false"/>
             </section>
             <section class="add-category">
-                <g:Label>Add sub-Category:</g:Label>
+                <g:Label>Добавить подкатегорию:</g:Label>
                 <crud:CategoryAddWidget ui:field="createWidget"/>
             </section>
         </section>
